@@ -1,0 +1,98 @@
+<div class="app-container">
+  <mat-card>
+    <form [formGroup]="createForm">
+      <mat-form-field class="field-full-width">
+        <input
+          matInput
+          placeholder="New user's name"
+          formControlName="name"
+          #name
+        />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="createForm.pristine || createForm.invalid"
+        (click)="addUser(name.value)"
+      >
+        Create New User
+      </button>
+    </form>
+
+    <mat-divider></mat-divider>
+
+    <mat-radio-group [(ngModel)]="selectedUser">
+      <table mat-table [dataSource]="users">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-radio-button
+              *ngIf="!element.editing"
+              value="{{ element.user.id }}"
+              >{{ element.user.name }}</mat-radio-button
+            >
+            <form *ngIf="element.editing" [formGroup]="updateForm">
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="name"
+                  formControlName="name"
+                  value="{{ element.user.name }}"
+                  #name
+                />
+              </mat-form-field>
+
+              <button
+                mat-raised-button
+                color="primary"
+                [disabled]="updateForm.pristine || updateForm.invalid"
+                (click)="updateUser(element, name.value)"
+              >
+                Save
+              </button>
+            </form>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="mat-column-right">
+            Actions
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-column-right">
+            <button
+              mat-stroked-button
+              *ngIf="!element.editing"
+              color="primary"
+              (click)="editUser(element)"
+            >
+              Edit
+            </button>
+            <button
+              *ngIf="!element.editing"
+              mat-stroked-button
+              color="warn"
+              (click)="openDeleteDialog(element.user)"
+            >
+              Delete
+            </button>
+            <button
+              *ngIf="element.editing"
+              mat-stroked-button
+              color="accent"
+              (click)="editUser(element)"
+            >
+              Back
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-radio-group>
+  </mat-card>
+</div>
+<div class="app-container" *ngIf="this.selectedUser">
+  <app-tasks-list [userIn]="selectedUser"></app-tasks-list>
+</div>

@@ -1,0 +1,86 @@
+<mat-card>
+  <form [formGroup]="createForm">
+    <mat-form-field class="field-full-width">
+      <input
+        matInput
+        placeholder="New task description"
+        formControlName="description"
+        #description
+      />
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="createForm.pristine || createForm.invalid"
+      (click)="createTask(description.value)"
+    >
+      Create New Task
+    </button>
+  </form>
+
+  <mat-divider></mat-divider>
+
+  <table mat-table [dataSource]="tasks">
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox
+          *ngIf="!element.editing"
+          [(ngModel)]="element.check"
+          (change)="checkTask(element)"
+        >
+          {{ element.task.description }}
+        </mat-checkbox>
+
+        <form *ngIf="element.editing" [formGroup]="updateForm">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="description"
+              formControlName="description"
+              value="{{ element.task.description }}"
+              #description
+            />
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="updateForm.pristine || updateForm.invalid"
+            (click)="updateTask(element, description.value)"
+          >
+            Save
+          </button>
+        </form>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="mat-column-right">
+        Actions
+      </th>
+      <td mat-cell *matCellDef="let element" class="mat-column-right">
+        <button
+          *ngIf="!element.editing"
+          mat-stroked-button
+          color="primary"
+          (click)="editTask(element)"
+        >
+          Edit
+        </button>
+        <button
+          *ngIf="element.editing"
+          mat-stroked-button
+          color="accent"
+          (click)="editTask(element)"
+        >
+          Back
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-card>

@@ -1,0 +1,6 @@
+docker run --rm --name mongo-docker -p 27017:27017 mongo 
+
+curl -X GET http://localhost:8080
+curl -X POST --data "description=Elaine" http://localhost:8080/1
+curl -X PUT --data "description=a" http://localhost:8000/1
+

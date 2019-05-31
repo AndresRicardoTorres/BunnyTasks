@@ -1,0 +1,12 @@
+docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5433:5432  postgres
+
+
+curl -X GET http://localhost:3000
+curl -X GET http://localhost:3000/2
+curl -X POST --data "name=Elaine" http://localhost:3000
+curl -X PUT --data "name=ElainE" http://localhost:3000/1
+curl -X DELETE http://localhost:3000/1
+
+
+
+
