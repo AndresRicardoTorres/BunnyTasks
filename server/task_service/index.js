@@ -5,13 +5,12 @@ const corsMiddleware = require('restify-cors-middleware')
 const TasksController = require('./controllers/tasks')
 const TasksDAO = require('./adapters/tasks-dao')
 const UsersService = require('./adapters/users-service')
-// ToDo: ENV
-const DBURL = 'mongodb://localhost:27017/test'
-const UsersURL = 'http://localhost:3000'
+
+const {DATABASE_URL, USERS_SERVICE_URL} = process.env
 
 const tasksController = TasksController({
-  TasksDAO: TasksDAO(DBURL),
-  UsersService: UsersService(UsersURL),
+  TasksDAO: TasksDAO(DATABASE_URL),
+  UsersService: UsersService(USERS_SERVICE_URL),
 })
 
 const server = restify.createServer()
@@ -71,6 +70,6 @@ server.put('/:task', async (req, res, next) => {
   }
 })
 
-server.listen(8080, function() {
+server.listen(process.env.PORT || 8080, function() {
   console.log('%s listening at %s', server.name, server.url)
 })

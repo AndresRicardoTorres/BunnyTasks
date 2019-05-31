@@ -1,3 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
-table.mat-table
+
+.app-container
+  padding: 2%
+  @media only screen and (min-width: 768px) 
+    width: 42%
+    display: inline-block    
+  
+table.mat-table 
   width: 90%
+  //table-layout: fixed
+  @media only screen and (min-width: 768px) 
+    width: 90%
+  
+  th, td 
+    overflow: hidden 
+    text-overflow: ellipsis
+    white-space: nowrap
+  
+  td.mat-column-actions 
+    width: 5px
+
+button.mat-raised-button 
+  margin: 7px
+
+button.mat-stroked-button
+  margin: 3px

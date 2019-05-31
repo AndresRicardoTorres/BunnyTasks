@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 module.exports = URL => {
-  mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true })
+  mongoose.connect(URL, { useNewUrlParser: true })
   const Task = mongoose.model('Task', {
     description: String,
     user: String,

@@ -30,7 +30,9 @@
           [(ngModel)]="element.check"
           (change)="checkTask(element)"
         >
-          {{ element.task.description }}
+          <span [class.done-task]="element.check">
+            {{ element.task.description }}
+          </span>
         </mat-checkbox>
 
         <form *ngIf="element.editing" [formGroup]="updateForm">

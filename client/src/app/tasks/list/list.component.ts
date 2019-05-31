@@ -3,6 +3,7 @@ import { TasksService } from 'src/app/services/tasks.service';
 import { Task } from 'src/app/models/task.model';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 class TaskRow {
   task: Task;
@@ -30,7 +31,8 @@ export class ListComponent implements OnInit {
   constructor(
     private taskService: TasksService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
   ) {
     this.createForm = this.fb.group({
       description: ['', Validators.required]
@@ -70,14 +72,23 @@ export class ListComponent implements OnInit {
   }
 
   updateTask(element, desc) {
+    element.editing = false;
+    element.task.description = desc;
     this.taskService.updateDesc(element.task._id, desc).subscribe(() => {
-      this.fetchTasks();
+      this.snackBar.open('Task updated successfully', 'OK', {
+        duration: 3000
+      });
     });
   }
 
   checkTask(element) {
+    element.editing = false;
     const state = element.check ? 'DONE' : 'TODO';
-    this.taskService.updateState(element.task._id, state);
+    this.taskService.updateState(element.task._id, state).subscribe(() => {
+      this.snackBar.open('Task updated successfully', 'OK', {
+        duration: 3000
+      });
+    });
   }
 
   createTask(desc: string) {

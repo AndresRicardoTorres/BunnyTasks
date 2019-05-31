@@ -4,15 +4,14 @@ const Boom = require('boom')
 const UserController = require('./controllers/users')
 const UsersDAO = require('./adapters/users-dao')
 
-// ToDo: ENV
-const DBURL = 'postgres://postgres:docker@localhost:5433/postgres'
+const { DATABASE_URL } = process.env
 
-const userController = UserController({ UsersDAO: UsersDAO(DBURL) })
+const userController = UserController({ UsersDAO: UsersDAO(DATABASE_URL) })
 
 const init = async () => {
   const server = Hapi.server({
-    port: 3000,
-    host: 'localhost',
+    port: process.env.PORT || 3000,
+    host: '0.0.0.0',
     routes: { cors: true },
   })
 
