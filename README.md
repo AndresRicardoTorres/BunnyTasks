@@ -1,8 +1,10 @@
 # Tasks
 
-## Live demo
+An experiment using different frameworks on backend.
 
-The project is live on <https://rabbit-task-front.herokuapp.com/>
+## ~~Live demo~~
+
+~~The project is live on <https://rabbit-task-front.herokuapp.com/>~~
 
 ## Architecture
 
